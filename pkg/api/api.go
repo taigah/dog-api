@@ -27,20 +27,11 @@ func unmarshalFromURL(url string, data interface{}) error {
 }
 
 func GetAllBreeds() ([]string, error) {
-	res, err := http.Get("https://dog.ceo/api/breeds/list/all")
-	if err != nil {
-		return nil, err
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	var data struct {
 		Breeds map[string][]string `json:"message"`
 	}
-	err = json.Unmarshal(body, &data)
+	err := unmarshalFromURL("https://dog.ceo/api/breeds/list/all", &data)
+
 	if err != nil {
 		return nil, err
 	}
@@ -61,20 +52,11 @@ func GetAllBreeds() ([]string, error) {
 }
 
 func GetRandomDogImageUrl() (string, error) {
-	res, err := http.Get("https://dog.ceo/api/breeds/image/random")
-	if err != nil {
-		return "", err
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return "", err
-	}
-
 	var data struct {
 		URL string `json:"message"`
 	}
-	err = json.Unmarshal(body, &data)
+	err := unmarshalFromURL("https://dog.ceo/api/breeds/image/random", &data)
+
 	if err != nil {
 		return "", err
 	}
@@ -83,21 +65,11 @@ func GetRandomDogImageUrl() (string, error) {
 }
 
 func GetBunchOfRandomDogImagesUrl(imageCount int) ([]string, error) {
-	res, err := http.Get(fmt.Sprintf("https://dog.ceo/api/breeds/image/random/%v", imageCount))
-	if err != nil {
-		return nil, err
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	var data struct {
 		URLs []string `json:"message"`
 	}
 
-	err = json.Unmarshal(body, &data)
+	err := unmarshalFromURL(fmt.Sprintf("https://dog.ceo/api/breeds/image/random/%v", imageCount), &data)
 	if err != nil {
 		return nil, err
 	}
@@ -106,20 +78,10 @@ func GetBunchOfRandomDogImagesUrl(imageCount int) ([]string, error) {
 }
 
 func GetAllDogsOfBreed(breed string) ([]string, error) {
-	res, err := http.Get(fmt.Sprintf("https://dog.ceo/api/breed/%v/images", breed))
-	if err != nil {
-		return nil, err
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	var data struct {
 		URLs []string `json:"message"`
 	}
-	err = json.Unmarshal(body, &data)
+	err := unmarshalFromURL(fmt.Sprintf("https://dog.ceo/api/breed/%v/images", breed), &data)
 
 	if err != nil {
 		return nil, err
@@ -129,20 +91,10 @@ func GetAllDogsOfBreed(breed string) ([]string, error) {
 }
 
 func GetRandomDogOfBreed(breed string) (string, error) {
-	res, err := http.Get(fmt.Sprintf("https://dog.ceo/api/breed/%v/images/random", breed))
-	if err != nil {
-		return "", err
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return "", err
-	}
-
 	var data struct {
 		URL string `json:"message"`
 	}
-	err = json.Unmarshal(body, &data)
+	err := unmarshalFromURL(fmt.Sprintf("https://dog.ceo/api/breed/%v/images/random", breed), &data)
 
 	if err != nil {
 		return "", err
@@ -152,21 +104,11 @@ func GetRandomDogOfBreed(breed string) (string, error) {
 }
 
 func GetBunchOfRandomDogsOfBreed(breed string, imageCount int) ([]string, error) {
-	res, err := http.Get(fmt.Sprintf("https://dog.ceo/api/breed/%v/images/random/%v", breed, imageCount))
-	if err != nil {
-		return nil, err
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	var data struct {
 		URLs []string `json:"message"`
 	}
 
-	err = json.Unmarshal(body, &data)
+	err := unmarshalFromURL(fmt.Sprintf("https://dog.ceo/api/breed/%v/images/random/%v", breed, imageCount), &data)
 	if err != nil {
 		return nil, err
 	}
@@ -175,21 +117,11 @@ func GetBunchOfRandomDogsOfBreed(breed string, imageCount int) ([]string, error)
 }
 
 func GetSubBreeds(breed string) ([]string, error) {
-	res, err := http.Get(fmt.Sprintf("https://dog.ceo/api/breed/%v/list", breed))
-	if err != nil {
-		return nil, err
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	var data struct {
 		SubBreeds []string `json:"message"`
 	}
 
-	err = json.Unmarshal(body, &data)
+	err := unmarshalFromURL(fmt.Sprintf("https://dog.ceo/api/breed/%v/list", breed), &data)
 	if err != nil {
 		return nil, err
 	}
