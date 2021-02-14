@@ -7,20 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetAllBreeds(t *testing.T) {
-	breeds, err := GetAllBreeds()
-	assert.Nil(t, err)
-	assert.Contains(t, breeds, "dingo")
-}
-
-func TestGetAllBreedsWithSubBreeds(t *testing.T) {
-	breeds, err := GetAllBreedsWithSubBreeds()
-	assert.Nil(t, err)
-	subBreeds, ok := breeds["bullterrier"]
-	assert.True(t, ok)
-	assert.Contains(t, subBreeds, "staffordshire")
-}
-
 func TestGetRandomDogImageUrl(t *testing.T) {
 	url, err := GetRandomDogImageUrl()
 	assert.Nil(t, err)
