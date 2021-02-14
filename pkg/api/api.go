@@ -38,17 +38,24 @@ func GetAllBreeds() ([]string, error) {
 
 	breeds := make([]string, 0)
 
-	for breed, subBreeds := range data.Breeds {
-		if len(subBreeds) == 0 {
-			breeds = append(breeds, breed)
-		} else {
-			for _, subBreed := range subBreeds {
-				breeds = append(breeds, fmt.Sprintf("%v %v", subBreed, breed))
-			}
-		}
+	for breed, _ := range data.Breeds {
+		breeds = append(breeds, breed)
 	}
 
 	return breeds, nil
+}
+
+func GetAllBreedsWithSubBreeds() (map[string][]string, error) {
+	var data struct {
+		Breeds map[string][]string `json:"message"`
+	}
+	err := unmarshalFromURL("https://dog.ceo/api/breeds/list/all", &data)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return data.Breeds, nil
 }
 
 func GetRandomDogImageUrl() (string, error) {
