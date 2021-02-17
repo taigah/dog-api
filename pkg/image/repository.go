@@ -13,6 +13,7 @@ type ImageRepository interface {
 	GetBunchRandoms(imageCount int) ([]Image, error)
 
 	GetAllByBreed(breed breed.Breed) ([]Image, error)
+	GetRandomByBreed(breed breed.Breed) (Image, error)
 }
 
 type imageRepositoryImpl struct {
@@ -60,4 +61,18 @@ func (rep imageRepositoryImpl) GetAllByBreed(breed breed.Breed) ([]Image, error)
 	}
 
 	return data.Images, nil
+}
+
+func (rep imageRepositoryImpl) GetRandomByBreed(breed breed.Breed) (Image, error) {
+	var data struct {
+		Image string `json:"message"`
+	}
+
+	err := ihttp.UnmarshalFromURL(rep.client, fmt.Sprintf("https://dog.ceo/api/breed/%v/images/random", breed), &data)
+
+	if err != nil {
+		return "", err
+	}
+
+	return data.Image, nil
 }

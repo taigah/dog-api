@@ -36,3 +36,11 @@ func Test_GetAllByBreed_Should_Return_All_Images_Of_The_Given_Breed(t *testing.T
 		assert.True(t, strings.HasPrefix(image, "http"))
 	}
 }
+
+func Test_GetRandomByBreed_Should_Return_A_Random_Image_Of_The_Given_Breed(t *testing.T) {
+	rep := NewImageRepository(http.DefaultClient)
+	breed := "hound"
+	image, err := rep.GetRandomByBreed(breed)
+	assert.Nil(t, err)
+	assert.True(t, strings.HasPrefix(image, "http"))
+}
