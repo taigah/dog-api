@@ -28,83 +28,54 @@ func NewImageRepository(client *http.Client) ImageRepository {
 	return &imageRepositoryImpl{client}
 }
 
-func (rep imageRepositoryImpl) GetRandom() (Image, error) {
-	var data struct {
-		Image Image `json:"message"`
-	}
-	err := ihttp.UnmarshalFromURL(rep.client, "https://dog.ceo/api/breeds/image/random", &data)
-
-	if err != nil {
-		return "", err
-	}
-
-	return data.Image, nil
-}
-
-func (rep imageRepositoryImpl) GetBunchRandoms(imageCount int) ([]Image, error) {
-	var data struct {
-		Images []Image `json:"message"`
-	}
-	err := ihttp.UnmarshalFromURL(rep.client, fmt.Sprintf("https://dog.ceo/api/breeds/image/random/%v", imageCount), &data)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return data.Images, nil
-}
-
-func (rep imageRepositoryImpl) GetAllByBreed(breed breed.Breed) ([]Image, error) {
-	var data struct {
-		Images []string `json:"message"`
-	}
-	err := ihttp.UnmarshalFromURL(rep.client, fmt.Sprintf("https://dog.ceo/api/breed/%v/images", breed), &data)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return data.Images, nil
-}
-
-func (rep imageRepositoryImpl) GetRandomByBreed(breed breed.Breed) (Image, error) {
+func (rep imageRepositoryImpl) getImageFromURL(url string) (Image, error) {
 	var data struct {
 		Image string `json:"message"`
 	}
 
-	err := ihttp.UnmarshalFromURL(rep.client, fmt.Sprintf("https://dog.ceo/api/breed/%v/images/random", breed), &data)
+	err := ihttp.UnmarshalFromURL(rep.client, url, &data)
 
 	if err != nil {
 		return "", err
 	}
 
-	return data.Image, nil
+	return data.Image, err
+}
+
+func (rep imageRepositoryImpl) getImagesFromURL(url string) ([]Image, error) {
+	var data struct {
+		Images []string `json:"message"`
+	}
+
+	err := ihttp.UnmarshalFromURL(rep.client, url, &data)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return data.Images, err
+}
+
+func (rep imageRepositoryImpl) GetRandom() (Image, error) {
+	return rep.getImageFromURL("https://dog.ceo/api/breeds/image/random")
+}
+
+func (rep imageRepositoryImpl) GetBunchRandoms(imageCount int) ([]Image, error) {
+	return rep.getImagesFromURL(fmt.Sprintf("https://dog.ceo/api/breeds/image/random/%v", imageCount))
+}
+
+func (rep imageRepositoryImpl) GetAllByBreed(breed breed.Breed) ([]Image, error) {
+	return rep.getImagesFromURL(fmt.Sprintf("https://dog.ceo/api/breed/%v/images", breed))
+}
+
+func (rep imageRepositoryImpl) GetRandomByBreed(breed breed.Breed) (Image, error) {
+	return rep.getImageFromURL(fmt.Sprintf("https://dog.ceo/api/breed/%v/images/random", breed))
 }
 
 func (rep imageRepositoryImpl) GetBunchRandomsByBreed(breed breed.Breed, imageCount int) ([]Image, error) {
-	var data struct {
-		Images []string `json:"message"`
-	}
-
-	err := ihttp.UnmarshalFromURL(rep.client, fmt.Sprintf("https://dog.ceo/api/breed/%v/images/random/%v", breed, imageCount), &data)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return data.Images, nil
+	return rep.getImagesFromURL(fmt.Sprintf("https://dog.ceo/api/breed/%v/images/random/%v", breed, imageCount))
 }
 
 func (rep imageRepositoryImpl) GetAllBySubBreed(breed breed.Breed, subBreed subbreed.SubBreed) ([]Image, error) {
-	var data struct {
-		Images []string `json:"message"`
-	}
-
-	err := ihttp.UnmarshalFromURL(rep.client, fmt.Sprintf("https://dog.ceo/api/breed/%v/%v/images", breed, subBreed), &data)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return data.Images, nil
+	return rep.getImagesFromURL(fmt.Sprintf("https://dog.ceo/api/breed/%v/%v/images", breed, subBreed))
 }
