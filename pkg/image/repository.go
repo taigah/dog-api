@@ -9,7 +9,7 @@ import (
 	"github.com/taigah/dog-api/pkg/subbreed"
 )
 
-type ImageRepository interface {
+type Repository interface {
 	GetRandom() (Image, error)
 	GetBunchRandoms(imageCount int) ([]Image, error)
 
@@ -26,7 +26,7 @@ type imageRepositoryImpl struct {
 	client *http.Client
 }
 
-func NewImageRepository(client *http.Client) ImageRepository {
+func NewRepository(client *http.Client) Repository {
 	return &imageRepositoryImpl{client}
 }
 

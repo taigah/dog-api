@@ -8,19 +8,19 @@ import (
 	"github.com/taigah/dog-api/pkg/breed"
 )
 
-type SubBreedRepository interface {
+type Repository interface {
 	GetSubBreedsOf(breed breed.Breed) ([]SubBreed, error)
 }
 
-type subBreedRepositoryImpl struct {
+type repositoryImpl struct {
 	client *http.Client
 }
 
-func NewSubBreedRepository(client *http.Client) SubBreedRepository {
-	return &subBreedRepositoryImpl{client}
+func NewRepository(client *http.Client) Repository {
+	return &repositoryImpl{client}
 }
 
-func (rep *subBreedRepositoryImpl) GetSubBreedsOf(breed breed.Breed) ([]SubBreed, error) {
+func (rep *repositoryImpl) GetSubBreedsOf(breed breed.Breed) ([]SubBreed, error) {
 	var data struct {
 		SubBreeds []string `json:"message"`
 	}

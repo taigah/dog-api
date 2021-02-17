@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func getRep() ImageRepository {
-	return NewImageRepository(http.DefaultClient)
+func getRep() Repository {
+	return NewRepository(http.DefaultClient)
 }
 
 func assertValidImage(t *testing.T, image string) {
@@ -23,14 +23,14 @@ func assertValidImages(t *testing.T, images []string) {
 }
 
 func Test_Get_Random_Should_Return_A_Random_Image(t *testing.T) {
-	rep := NewImageRepository(http.DefaultClient)
+	rep := NewRepository(http.DefaultClient)
 	image, err := rep.GetRandom()
 	assert.Nil(t, err)
 	assert.True(t, strings.HasPrefix(image, "http"))
 }
 
 func Test_GetBunchRandoms_Should_Return_A_Bunch_Of_Random_Images(t *testing.T) {
-	rep := NewImageRepository(http.DefaultClient)
+	rep := NewRepository(http.DefaultClient)
 	imageCount := 30
 	images, err := rep.GetBunchRandoms(imageCount)
 	assert.Nil(t, err)
@@ -41,7 +41,7 @@ func Test_GetBunchRandoms_Should_Return_A_Bunch_Of_Random_Images(t *testing.T) {
 }
 
 func Test_GetAllByBreed_Should_Return_All_Images_Of_The_Given_Breed(t *testing.T) {
-	rep := NewImageRepository(http.DefaultClient)
+	rep := NewRepository(http.DefaultClient)
 	breed := "hound"
 	images, err := rep.GetAllByBreed(breed)
 	assert.Nil(t, err)
@@ -52,7 +52,7 @@ func Test_GetAllByBreed_Should_Return_All_Images_Of_The_Given_Breed(t *testing.T
 }
 
 func Test_GetRandomByBreed_Should_Return_A_Random_Image_Of_The_Given_Breed(t *testing.T) {
-	rep := NewImageRepository(http.DefaultClient)
+	rep := NewRepository(http.DefaultClient)
 	breed := "hound"
 	image, err := rep.GetRandomByBreed(breed)
 	assert.Nil(t, err)
@@ -60,7 +60,7 @@ func Test_GetRandomByBreed_Should_Return_A_Random_Image_Of_The_Given_Breed(t *te
 }
 
 func Test_GetBunchRandomsByBreed_Should_Return_A_Bunch_Of_Random_Images_Of_The_Given_Breed(t *testing.T) {
-	rep := NewImageRepository(http.DefaultClient)
+	rep := NewRepository(http.DefaultClient)
 	imageCount := 10
 	breed := "hound"
 	images, err := rep.GetBunchRandomsByBreed(breed, imageCount)
@@ -72,7 +72,7 @@ func Test_GetBunchRandomsByBreed_Should_Return_A_Bunch_Of_Random_Images_Of_The_G
 }
 
 func Test_GetAllBySubBreed_Should_Return_All_Images_Of_The_Given_Sub_Breed(t *testing.T) {
-	rep := NewImageRepository(http.DefaultClient)
+	rep := NewRepository(http.DefaultClient)
 	breed := "hound"
 	subBreed := "afghan"
 	images, err := rep.GetAllBySubBreed(breed, subBreed)
@@ -84,7 +84,7 @@ func Test_GetAllBySubBreed_Should_Return_All_Images_Of_The_Given_Sub_Breed(t *te
 }
 
 func Test_GetRandomBySubBreed_Should_Return_A_Random_Image_Of_The_Given_Sub_Breed(t *testing.T) {
-	rep := NewImageRepository(http.DefaultClient)
+	rep := NewRepository(http.DefaultClient)
 	breed := "hound"
 	subBreed := "afghan"
 	image, err := rep.GetRandomBySubBreed(breed, subBreed)
