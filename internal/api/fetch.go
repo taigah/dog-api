@@ -31,15 +31,18 @@ func Fetch(client *http.Client, endpoint string, data interface{}) error {
 	}
 
 	if isErrorResponse(res) {
-		var err struct {
+		var apiError struct {
 			Message string `json:"message"`
 		}
 
-		unmarshalResponse(res, &err)
+		err := unmarshalResponse(res, &apiError)
 
-		return errors.New(err.Message)
+		if err != nil {
+			return err
+		}
+
+		return errors.New(apiError.Message)
 	}
 
-	unmarshalResponse(res, data)
-	return nil
+	return unmarshalResponse(res, data)
 }
