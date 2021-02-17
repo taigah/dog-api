@@ -19,6 +19,7 @@ type ImageRepository interface {
 
 	GetAllBySubBreed(breed breed.Breed, subBreed subbreed.SubBreed) ([]Image, error)
 	GetRandomBySubBreed(breed breed.Breed, subBreed subbreed.SubBreed) (Image, error)
+	GetBunchRandomsBySubBreed(breed breed.Breed, subBreed subbreed.SubBreed, imageCount int) ([]Image, error)
 }
 
 type imageRepositoryImpl struct {
@@ -83,4 +84,8 @@ func (rep imageRepositoryImpl) GetAllBySubBreed(breed breed.Breed, subBreed subb
 
 func (rep imageRepositoryImpl) GetRandomBySubBreed(breed breed.Breed, subBreed subbreed.SubBreed) (Image, error) {
 	return rep.getImageFromURL(fmt.Sprintf("https://dog.ceo/api/breed/%v/%v/images/random", breed, subBreed))
+}
+
+func (rep imageRepositoryImpl) GetBunchRandomsBySubBreed(breed breed.Breed, subBreed subbreed.SubBreed, imageCount int) ([]Image, error) {
+	return rep.getImagesFromURL(fmt.Sprintf("https://dog.ceo/api/breed/%v/%v/images/random/%v", breed, subBreed, imageCount))
 }

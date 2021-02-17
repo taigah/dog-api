@@ -8,8 +8,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func getRep() ImageRepository {
+	return NewImageRepository(http.DefaultClient)
+}
+
 func assertValidImage(t *testing.T, image string) {
 	assert.True(t, strings.HasPrefix(image, "http"))
+}
+
+func assertValidImages(t *testing.T, images []string) {
+	for _, image := range images {
+		assertValidImage(t, image)
+	}
 }
 
 func Test_Get_Random_Should_Return_A_Random_Image(t *testing.T) {
@@ -80,4 +90,16 @@ func Test_GetRandomBySubBreed_Should_Return_A_Random_Image_Of_The_Given_Sub_Bree
 	image, err := rep.GetRandomBySubBreed(breed, subBreed)
 	assert.Nil(t, err)
 	assertValidImage(t, image)
+}
+
+func Test_GetBunchRandomsBySubBreed_Should_Return_A_Bunch_Of_Random_Images_Of_The_Given_Sub_Breed(t *testing.T) {
+	rep := getRep()
+	breed := "hound"
+	subBreed := "afghan"
+	imageCount := 30
+	images, err := rep.GetBunchRandomsBySubBreed(breed, subBreed, imageCount)
+
+	assert.Nil(t, err)
+	assertValidImages(t, images)
+	assert.Len(t, images, imageCount)
 }
