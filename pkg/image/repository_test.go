@@ -72,3 +72,12 @@ func Test_GetAllBySubBreed_Should_Return_All_Images_Of_The_Given_Sub_Breed(t *te
 		assertValidImage(t, image)
 	}
 }
+
+func Test_GetRandomBySubBreed_Should_Return_A_Random_Image_Of_The_Given_Sub_Breed(t *testing.T) {
+	rep := NewImageRepository(http.DefaultClient)
+	breed := "hound"
+	subBreed := "afghan"
+	image, err := rep.GetRandomBySubBreed(breed, subBreed)
+	assert.Nil(t, err)
+	assertValidImage(t, image)
+}
