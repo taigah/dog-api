@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	httpi "github.com/taigah/dog-api/internal/http"
+	"github.com/taigah/dog-api/internal/api"
 	"github.com/taigah/dog-api/pkg/breed"
 )
 
@@ -25,7 +25,7 @@ func (rep *repositoryImpl) GetSubBreedsOf(breed breed.Breed) ([]SubBreed, error)
 		SubBreeds []string `json:"message"`
 	}
 
-	err := httpi.UnmarshalFromURL(rep.client, fmt.Sprintf("https://dog.ceo/api/breed/%v/list", breed), &data)
+	err := api.Fetch(rep.client, fmt.Sprintf("breed/%v/list", breed), &data)
 
 	if err != nil {
 		return nil, err

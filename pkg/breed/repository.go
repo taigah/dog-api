@@ -3,7 +3,7 @@ package breed
 import (
 	"net/http"
 
-	ihttp "github.com/taigah/dog-api/internal/http"
+	"github.com/taigah/dog-api/internal/api"
 )
 
 type Repository interface {
@@ -22,7 +22,8 @@ func (rep *repo) GetAll() ([]Breed, error) {
 	var data struct {
 		Breeds map[string][]string `json:"message"`
 	}
-	err := ihttp.UnmarshalFromURL(rep.client, "https://dog.ceo/api/breeds/list/all", &data)
+
+	err := api.Fetch(rep.client, "breeds/list/all", &data)
 
 	if err != nil {
 		return nil, err
