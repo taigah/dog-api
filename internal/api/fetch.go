@@ -40,6 +40,6 @@ func Fetch(client *http.Client, endpoint string, data interface{}) error {
 		return errors.New(err.Message)
 	}
 
-	unmarshalResponse(res, &data)
+	unmarshalResponse(res, data)
 	return nil
 }
