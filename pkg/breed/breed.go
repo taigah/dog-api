@@ -1,3 +1,3 @@
 package breed
 
-type Breed string
+type Breed = string

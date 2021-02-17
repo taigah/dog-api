@@ -31,7 +31,7 @@ func (rep *repo) GetAll() ([]Breed, error) {
 	breeds := make([]Breed, 0)
 
 	for breed, _ := range data.Breeds {
-		breeds = append(breeds, Breed(breed))
+		breeds = append(breeds, breed)
 	}
 
 	return breeds, nil

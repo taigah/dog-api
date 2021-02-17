@@ -1,1 +1,1 @@
-impl test unitaires breed repository (http mocking)
+use mock http.Client in tests
