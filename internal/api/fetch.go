@@ -18,6 +18,10 @@ func unmarshalResponse(res *http.Response, data interface{}) error {
 	return json.Unmarshal(body, &data)
 }
 
+func isErrorResponse(res *http.Response) bool {
+	return res.StatusCode >= 400
+}
+
 func Fetch(client *http.Client, endpoint string, data interface{}) error {
 	url := fmt.Sprintf("https://dog.ceo/api/%v", endpoint)
 	res, err := client.Get(url)
@@ -26,7 +30,7 @@ func Fetch(client *http.Client, endpoint string, data interface{}) error {
 		return err
 	}
 
-	if res.StatusCode > 300 {
+	if isErrorResponse(res) {
 		var err struct {
 			Message string `json:"message"`
 		}
