@@ -25,3 +25,14 @@ func Test_GetBunchRandoms_Should_Return_A_Bunch_Of_Random_Images(t *testing.T) {
 		assert.True(t, strings.HasPrefix(image, "http"))
 	}
 }
+
+func Test_GetAllByBreed_Should_Return_All_Images_Of_The_Given_Breed(t *testing.T) {
+	rep := NewImageRepository(http.DefaultClient)
+	breed := "hound"
+	images, err := rep.GetAllByBreed(breed)
+	assert.Nil(t, err)
+	assert.Contains(t, images, "https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg")
+	for _, image := range images {
+		assert.True(t, strings.HasPrefix(image, "http"))
+	}
+}

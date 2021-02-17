@@ -5,11 +5,14 @@ import (
 	"net/http"
 
 	ihttp "github.com/taigah/dog-api/internal/http"
+	"github.com/taigah/dog-api/pkg/breed"
 )
 
 type ImageRepository interface {
 	GetRandom() (Image, error)
 	GetBunchRandoms(imageCount int) ([]Image, error)
+
+	GetAllByBreed(breed breed.Breed) ([]Image, error)
 }
 
 type imageRepositoryImpl struct {
@@ -38,6 +41,19 @@ func (rep imageRepositoryImpl) GetBunchRandoms(imageCount int) ([]Image, error) 
 		Images []Image `json:"message"`
 	}
 	err := ihttp.UnmarshalFromURL(rep.client, fmt.Sprintf("https://dog.ceo/api/breeds/image/random/%v", imageCount), &data)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return data.Images, nil
+}
+
+func (rep imageRepositoryImpl) GetAllByBreed(breed breed.Breed) ([]Image, error) {
+	var data struct {
+		Images []string `json:"message"`
+	}
+	err := ihttp.UnmarshalFromURL(rep.client, fmt.Sprintf("https://dog.ceo/api/breed/%v/images", breed), &data)
 
 	if err != nil {
 		return nil, err
